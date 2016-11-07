@@ -285,6 +285,10 @@ public class Main extends Application{
 		break;
 		}
 }
+	/**
+	 * finds all critter classes in the same package also in the same src/ as Main.java
+	 * @param box box to add critter class names to
+	 */
 	private static void findCritters(ComboBox<String> box){
 		if(crits.size() == 0){
 		File folder = new File("src/" + myPackage);
@@ -319,6 +323,12 @@ public class Main extends Application{
 		 }
 	}
 	@Override
+	/**
+	 * main method for displaying the GUI
+	 * Displays all 3 screens: control, critter world, stats screen
+	 * handles all button and choice box on action events
+	 * 
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 		double x_val = bounds.getWidth()/4;
