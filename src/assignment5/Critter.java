@@ -440,10 +440,7 @@ public abstract class Critter {
 			Critter c = population.get(i);
 			c.doTimeStep();//call time stpe for all critters
 			c.energy -= Params.rest_energy_cost;//subtract rest energy
-			int indexCheck = location[c.y_coord][c.x_coord];// checks if c just
-															// moved into a
-															// position occupied
-															// by a critter
+			int indexCheck = location[c.y_coord][c.x_coord];// checks if c just moved into a  position occupied  by a critter
 			if (indexCheck != 0) { // that has already initiated doTimeStep
 				if (indexCheck == -1) { // adds the 2 critters into a list
 					indexCheck = 0;
@@ -462,8 +459,7 @@ public abstract class Critter {
 			c.y_start = c.y_coord;
 		}
 		stepOver = true;//encounters stage
-		for (int i = 0; i < Params.world_height * Params.world_width; i++) {// resolve
-																			// encounters
+		for (int i = 0; i < Params.world_height * Params.world_width; i++) {// resolve encounters
 			ArrayList<Critter> currentSpot = collisions.encounters.get(i);//take the encounter list for the current location
 			if (currentSpot != null) {//check if the list is not null
 				while (currentSpot.size() > 1) {//while their are at least 2 bugs at the current location
@@ -591,7 +587,7 @@ public abstract class Critter {
 	}
 		else{
 			boolean[][] location = new boolean[Params.world_height][Params.world_width];
-			for(Critter c : population){
+			for(Critter c : population){//call write to draw critters onto canvas in main
 				if(!location[c.y_coord][c.x_coord]){
 					location[c.y_coord][c.x_coord] = true;
 					Main.write(c, c.x_coord, c.y_coord);
