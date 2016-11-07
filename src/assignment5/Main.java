@@ -234,10 +234,15 @@ public class Main extends Application{
 			launch(args);
 		}
 	}
-	
+	/**
+	 * function that draws passed critter to critter world screen
+	 * @param c critter to draw
+	 * @param x x coord of critter
+	 * @param y y coord of critter
+	 */
 	public static void write(Critter c, int x, int y){
-		switch(c.viewShape()){
-		case CIRCLE:
+		switch(c.viewShape()){//draw shape for critter based on viewshape
+		case CIRCLE://draw a circle
 				gc.setFill(c.viewFillColor());
 				gc.fillOval(x*scale, y*scale, scale, scale);
 				gc.setStroke(c.viewOutlineColor());
@@ -287,15 +292,15 @@ public class Main extends Application{
 }
 	/**
 	 * finds all critter classes in the same package also in the same src/ as Main.java
-	 * @param box box to add critter class names to
+	 * @param box choice box to add critter class names to
 	 */
 	private static void findCritters(ComboBox<String> box){
 		if(crits.size() == 0){
-		File folder = new File("src/" + myPackage);
+		File folder = new File("src/" + myPackage);//locate all files in package folder
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<String> files = new ArrayList<String>();
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
+			if (listOfFiles[i].isFile()) {//check if file is a file and truncate file extension
 			String x = listOfFiles[i].getName();
 			files.add(x.split("\\.")[0]);
 			}
@@ -306,9 +311,7 @@ public class Main extends Application{
 					Class<?> testClass = Class.forName(myPackage + "." + files.get(i));// sets
 					// testClass to
 					// critter_class_name
-					Critter makeCritter = (Critter) testClass.newInstance();// runs default
-																	// constructor for
-																	// testClass
+					Critter makeCritter = (Critter) testClass.newInstance();// check if instatiable
 					if(Class.forName(myPackage + ".Critter").isAssignableFrom(testClass)){
 						crits.add(files.get(i));
 					}
@@ -330,11 +333,11 @@ public class Main extends Application{
 	 * 
 	 */
 	public void start(Stage primaryStage) throws Exception {
-		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+		Rectangle2D bounds = Screen.getPrimary().getVisualBounds();//find bounds of screen
 		double x_val = bounds.getWidth()/4;
 		double y_val =  bounds.getHeight();
 		double gridheight = ((bounds.getHeight()*3)/4);
-		scale = gridheight/Params.world_height;
+		scale = gridheight/Params.world_height;//determine scaleing factor for screen based on screen size and params
 		double gridwidth = Params.world_width*scale;
 		if(gridwidth > bounds.getWidth()*3/4){
 			double scalex = (((bounds.getWidth()*3)/4 - 12)/Params.world_width);
@@ -346,30 +349,30 @@ public class Main extends Application{
 		}
 		primaryStage.setTitle("Critter World");
 		Group world = new Group();
-		Canvas grid = new Canvas( gridwidth, gridheight);
+		Canvas grid = new Canvas( gridwidth, gridheight);//create canvas and group for critter world stage
 		GraphicsContext gcCanvas = grid.getGraphicsContext2D();
-		primaryStage.setX(x_val + 5);
+		primaryStage.setX(x_val + 5);//set stage location
 		primaryStage.setY(0);
         gc = gcCanvas;
         world.getChildren().add(grid);
 		Critter.displayWorld();
-		Scene s = new Scene(world, gridwidth + 5, gridheight + 5, Color.WHITE);
+		Scene s = new Scene(world, gridwidth + 5, gridheight + 5, Color.WHITE);//set size of scene based on scaling
 		primaryStage.setScene(s);
-		primaryStage.show();
+		primaryStage.show();//display critter world
 		
 		
-		Stage statscreen = new Stage();
+		Stage statscreen = new Stage();//create stats screen stage
 		statscreen.setTitle("Stats");
 		statscreen.setX(x_val + 5);
-		statscreen.setY(gridheight + 47);
-		TextArea textArea = new TextArea();
+		statscreen.setY(gridheight + 47);//position stage on screen
+		TextArea textArea = new TextArea();//creat text area that will be console output
 		VBox vbox = new VBox(textArea);
 		double textH = bounds.getHeight() - gridheight;
 		if(textH > 227){
 			textH = 227;
 		}
-        Scene scenetext = new Scene(vbox,( bounds.getWidth()*3)/4, textH);
-        OutputStream out = new OutputStream() {
+        Scene scenetext = new Scene(vbox,( bounds.getWidth()*3)/4, textH);//determine size of stats screen
+        OutputStream out = new OutputStream() {//set outputstream to display on stats screen
             @Override
             public void write(int b) throws IOException {
                 textArea.appendText(String.valueOf((char)b));
@@ -377,18 +380,18 @@ public class Main extends Application{
         };
         System.setOut(new PrintStream(out, true));
         System.setErr(new PrintStream(out, true));
-        statscreen.setScene(scenetext);
+        statscreen.setScene(scenetext);//display stats screen
         statscreen.show();
 		
-		GridPane root = new GridPane();
+		GridPane root = new GridPane();//create stage for controller of GUI
 		Stage control = new Stage();
 		control.setTitle("Controller");
-		Scene control_scene = new Scene(root, x_val, y_val, Color.WHITE);
+		Scene control_scene = new Scene(root, x_val, y_val, Color.WHITE);//set size of controller
 		control.setScene(control_scene);
-		control.setX(0);
+		control.setX(0);//set position of controller
 		control.setY(0);
 		
-		ColumnConstraints column = new ColumnConstraints(x_val/3);
+		ColumnConstraints column = new ColumnConstraints(x_val/3);//create rows and colmuns for placements of buttons
         root.getColumnConstraints().add(column);
         root.getColumnConstraints().add(column);
         RowConstraints row = new RowConstraints(y_val/9);
@@ -398,7 +401,7 @@ public class Main extends Application{
         root.getRowConstraints().add(row);
         root.getRowConstraints().add(row);
         root.getRowConstraints().add(row);
-        Button btn0 = new Button();
+        Button btn0 = new Button();//create all the buttons in GUI
         btn0.setText("make");
         Button btn1 = new Button();
         btn1.setText("step");
@@ -412,25 +415,25 @@ public class Main extends Application{
         btn4.setText("run");
         Button btn5 = new Button();
         btn5.setText("stop");
-        TextField seed = new TextField ();
+        TextField seed = new TextField ();//text feild for seed input
         seed.setPromptText("Set Random Number Seed");
         Button btn6 = new Button();
         btn6.setText("seed");
-        ComboBox<String> box0 = new ComboBox<String>();
+        ComboBox<String> box0 = new ComboBox<String>();//create all the choice boxes
 		findCritters(box0);
 		box0.setEditable(true);
 		ComboBox<String> box1 = new ComboBox<String>();
-		box1.getItems().addAll("1","10","42","100","1000");
+		box1.getItems().addAll("1","10","42","100","1000");//fill with correct data
 		box1.setEditable(true);
         ComboBox<String> box = new ComboBox<String>();
 		box.getItems().addAll("1","10","42","100","1000");
-		box.setEditable(true);
+		box.setEditable(true);//allow users to add their own choices to the boxes
 		ComboBox<String> box2 = new ComboBox<String>();
 		findCritters(box2);
 		box2.setEditable(true);
 		ComboBox<String> box3 = new ComboBox<String>();
 		box3.getItems().addAll("x1","x2","x5","x10","x20","x50","x100");
-        root.add(btn0, 2, 1);
+        root.add(btn0, 2, 1);//add buttons to the gridpane
         root.add(btn1, 1, 2);
         root.add(box, 0, 2);
         root.add(box0, 0, 1);
@@ -444,26 +447,26 @@ public class Main extends Application{
         root.add(btn4, 1, 4);
         root.add(btn5, 2, 4);
         root.add(box3, 0, 4);
-        box.setValue("1");
+        box.setValue("1");//set starting values of the boxes
         box0.setValue("Algae");
         box1.setValue("1");
         box3.setValue("x1");
         box2.setValue("Algae");
         btn5.setDisable(true);
-        timeline = new Timeline();
+        timeline = new Timeline();//create timeline for the animation
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
         @SuppressWarnings("rawtypes")
-		EventHandler onFinished = new EventHandler<ActionEvent>() {
+		EventHandler onFinished = new EventHandler<ActionEvent>() {//what happens each animation frame
             public void handle(ActionEvent t) {
-            	for(int i = 0; i < animSpeed; i++){
+            	for(int i = 0; i < animSpeed; i++){//execute worldtiemstep based on animation speed
             		Critter.worldTimeStep();
             	}
-                gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-                Critter.displayWorld();
+                gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());//clear screen
+                Critter.displayWorld();//display critter world
                 primaryStage.show();
                 try {
-                	textArea.clear();
+                	textArea.clear();//display stats after each update to critter world
                 	List<Critter> statList = Critter.getInstances(CritterStat);
 					Class<?>[] types = { List.class };
 					Class<?> testClass = Class.forName(myPackage + "." + CritterStat);
@@ -474,16 +477,16 @@ public class Main extends Application{
 				}
             }
         };
-        Duration duration = Duration.millis(300);
+        Duration duration = Duration.millis(300);//set time between animation frames
         @SuppressWarnings("unchecked")
-		KeyFrame keyFrame = new KeyFrame(duration, onFinished );
+		KeyFrame keyFrame = new KeyFrame(duration, onFinished );//intialize timeline
         timeline.getKeyFrames().add(keyFrame);
-        btn0.setOnAction(new EventHandler<ActionEvent>() {
+        btn0.setOnAction(new EventHandler<ActionEvent>() {//make button
 			 
             @Override
             public void handle(ActionEvent event) {
                 try {
-                	for(int i = 0; i < CritterNum; i++){
+                	for(int i = 0; i < CritterNum; i++){//create specified number of critters
                 		Critter.makeCritter(CritterMake);
                 	}
 				} catch (Exception e) {
@@ -491,23 +494,23 @@ public class Main extends Application{
 				}
             }
         });
-        btn7.setOnAction(new EventHandler<ActionEvent>() {
+        btn7.setOnAction(new EventHandler<ActionEvent>() {//clear button
 			 
             @Override
             public void handle(ActionEvent event) {
-            	Critter.clearWorld();
+            	Critter.clearWorld();//clear critter world and update all stages
             	gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
                 Critter.displayWorld();
                 primaryStage.show();
                 btn2.fire();
             }
         });
-        btn6.setOnAction(new EventHandler<ActionEvent>() {
+        btn6.setOnAction(new EventHandler<ActionEvent>() {//seed button
 			 
             @Override
             public void handle(ActionEvent event) {
             	try{
-                long seedNum = Integer.parseInt(seed.getText());
+                long seedNum = Integer.parseInt(seed.getText());//set random number seed
                 Critter.setSeed(seedNum);
             	}
             	catch(Exception e){
@@ -516,13 +519,13 @@ public class Main extends Application{
                 
             }
         });
-        btn5.setOnAction(new EventHandler<ActionEvent>() {
+        btn5.setOnAction(new EventHandler<ActionEvent>() {//stop button
 			 
             @Override
             public void handle(ActionEvent event) {
-                btn0.setDisable(false);
-                btn1.setDisable(false);
-                btn2.setDisable(false);
+                btn0.setDisable(false);//enable all other buttons and boxes
+                btn1.setDisable(false);//end animation
+                btn2.setDisable(false);//disable this button
                 btn3.setDisable(false);
                 box.setDisable(false);
                 box0.setDisable(false);
@@ -537,12 +540,12 @@ public class Main extends Application{
                 timeline.stop();
             }
         });
-        btn4.setOnAction(new EventHandler<ActionEvent>() {
+        btn4.setOnAction(new EventHandler<ActionEvent>() {//run button
 			 
             @Override
             public void handle(ActionEvent event) {
-                btn0.setDisable(true);
-                btn1.setDisable(true);
+                btn0.setDisable(true);//disable all boxes and butons besides stop button
+                btn1.setDisable(true);//start animation
                 btn2.setDisable(true);
                 btn3.setDisable(true);
                 box.setDisable(true);
@@ -558,20 +561,20 @@ public class Main extends Application{
                 timeline.play();
             }
         });
-        btn3.setOnAction(new EventHandler<ActionEvent>() {
+        btn3.setOnAction(new EventHandler<ActionEvent>() {//quit button
 			 
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event) {//end program
                 System.exit(1);
             }
         });
-        btn2.setOnAction(new EventHandler<ActionEvent>() {
+        btn2.setOnAction(new EventHandler<ActionEvent>() {//stats button
 			 
             @Override
             public void handle(ActionEvent event) {
                 try {
-                	textArea.clear();
-                	List<Critter> statList = Critter.getInstances(CritterStat);
+                	textArea.clear();//clear stats screen
+                	List<Critter> statList = Critter.getInstances(CritterStat);//runstats based on specified critter
 					Class<?>[] types = { List.class };
 					Class<?> testClass = Class.forName(myPackage + "." + CritterStat);
 					Method stat = testClass.getMethod("runStats", types);
@@ -581,28 +584,28 @@ public class Main extends Application{
 				}
             }
         });
-        box0.setOnAction(new EventHandler<ActionEvent>() {
+        box0.setOnAction(new EventHandler<ActionEvent>() {//critter select for make
 			 
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event) {//store selected critter class name
                 CritterMake = box0.getValue();
                 
             }
         });
-        box2.setOnAction(new EventHandler<ActionEvent>() {
+        box2.setOnAction(new EventHandler<ActionEvent>() {//critter select for stats
 			 
             @Override
             public void handle(ActionEvent event) {
-                CritterStat = box2.getValue();
-                btn2.fire();
+                CritterStat = box2.getValue();//store selected critter class  name
+                btn2.fire();//update stats screen
             }
         });
-        box3.setOnAction(new EventHandler<ActionEvent>() {
+        box3.setOnAction(new EventHandler<ActionEvent>() {//animation speed select
 			 
             @Override
             public void handle(ActionEvent event) {
             	try{
-            		String x = box3.getValue();
+            		String x = box3.getValue();//store animation speed int
             		x = x.substring(1);
                     animSpeed = Integer.parseInt(x);
                 	}
@@ -612,43 +615,43 @@ public class Main extends Application{
                 
             }
         });
-        box1.setOnAction(new EventHandler<ActionEvent>() {
+        box1.setOnAction(new EventHandler<ActionEvent>() {//number of critters to make select
 			 
             @Override
             public void handle(ActionEvent event) {
             	try{
-                    CritterNum = Integer.parseInt(box1.getValue());
+                    CritterNum = Integer.parseInt(box1.getValue());//store selected number of critters to make int
                 	}
                 	catch(Exception e){
-                		CritterNum = 1;
+                		CritterNum = 1;//if value not an int set to 1
                 	}
                 
             }
         });
-        box.setOnAction(new EventHandler<ActionEvent>() {
+        box.setOnAction(new EventHandler<ActionEvent>() {//number of steps to execute select
 			 
             @Override
             public void handle(ActionEvent event) {
             	try{
-                stepNum = Integer.parseInt(box.getValue());
+                stepNum = Integer.parseInt(box.getValue());//store number of steps to do int
             	}
             	catch(Exception e){
-            		stepNum = 1;
+            		stepNum = 1;//if value inputted not int set to 1
             	}
                 
             }
         });
-        btn1.setOnAction(new EventHandler<ActionEvent>() {
+        btn1.setOnAction(new EventHandler<ActionEvent>() {//step button
 			 
             @Override
             public void handle(ActionEvent event) {
             	for(int i = 0; i < stepNum; i++){
-                Critter.worldTimeStep();
+                Critter.worldTimeStep();//run world timestep for specified number of steps
             	}
-                gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-                Critter.displayWorld();
+                gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());//clear critter world screen
+                Critter.displayWorld();//display critters on screen
                 primaryStage.show();
-                btn2.fire();
+                btn2.fire();//update stats
             }
         });
 		control.show();
