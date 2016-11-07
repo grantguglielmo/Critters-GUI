@@ -590,8 +590,12 @@ public abstract class Critter {
 		System.out.print("+\n");
 	}
 		else{
+			boolean[][] location = new boolean[Params.world_height][Params.world_width];
 			for(Critter c : population){
-				Main.write(c, c.x_coord, c.y_coord);
+				if(!location[c.y_coord][c.x_coord]){
+					location[c.y_coord][c.x_coord] = true;
+					Main.write(c, c.x_coord, c.y_coord);
+				}
 			}
 		}
 	}
