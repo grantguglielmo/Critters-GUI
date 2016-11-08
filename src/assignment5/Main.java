@@ -23,6 +23,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -30,6 +31,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
@@ -390,17 +392,33 @@ public class Main extends Application {
 		control.setScene(control_scene);
 		control.setX(0);// set position of controller
 		control.setY(0);
-
 		ColumnConstraints column = new ColumnConstraints(x_val / 3);// create rows and colmuns for placements of buttons
 		root.getColumnConstraints().add(column);
 		root.getColumnConstraints().add(column);
 		RowConstraints row = new RowConstraints(y_val / 9);
+		row.setValignment(VPos.TOP);
+		RowConstraints minirow = new RowConstraints(20);
+		minirow.setValignment(VPos.TOP);
+		root.getRowConstraints().add(row);
+		root.getRowConstraints().add(minirow);
+		root.getRowConstraints().add(row);
+		root.getRowConstraints().add(minirow);
+		root.getRowConstraints().add(row);
+		root.getRowConstraints().add(minirow);
+		root.getRowConstraints().add(row);
+		root.getRowConstraints().add(minirow);
 		root.getRowConstraints().add(row);
 		root.getRowConstraints().add(row);
-		root.getRowConstraints().add(row);
-		root.getRowConstraints().add(row);
-		root.getRowConstraints().add(row);
-		root.getRowConstraints().add(row);
+		Label lbl = new Label();
+		lbl.setText("Run stats for:");
+		Label lbl2 = new Label();
+		lbl2.setText("Speed:");
+		Label lbl3 = new Label();
+		lbl3.setText("# of steps:");
+		Label lbl4 = new Label();
+		lbl4.setText("Critter to make:");
+		Label lbl5 = new Label();
+		lbl5.setText("# to make:");
 		Button btn0 = new Button();// create all the buttons in GUI
 		btn0.setText("make");
 		Button btn1 = new Button();
@@ -416,7 +434,7 @@ public class Main extends Application {
 		Button btn5 = new Button();
 		btn5.setText("stop");
 		TextField seed = new TextField();// text feild for seed input
-		seed.setPromptText("Set Random Number Seed");
+		seed.setPromptText("Set Random Number");
 		Button btn6 = new Button();
 		btn6.setText("seed");
 		ComboBox<String> box0 = new ComboBox<String>();// create all the choice boxes
@@ -433,20 +451,24 @@ public class Main extends Application {
 		box2.setEditable(true);
 		ComboBox<String> box3 = new ComboBox<String>();
 		box3.getItems().addAll("x1", "x2", "x5", "x10", "x20", "x50", "x100");
-		root.add(btn0, 2, 1);// add buttons to the gridpane
-		root.add(btn1, 1, 2);
-		root.add(box, 0, 2);
-		root.add(box0, 0, 1);
-		root.add(box1, 1, 1);
-		root.add(box2, 0, 3);
-		root.add(btn2, 1, 3);
-		root.add(seed, 0, 5);
-		root.add(btn6, 1, 5);
-		root.add(btn7, 0, 6);
-		root.add(btn3, 1, 6);
-		root.add(btn4, 1, 4);
-		root.add(btn5, 2, 4);
-		root.add(box3, 0, 4);
+		root.add(btn0, 2, 2);// add buttons to the gridpane
+		root.add(lbl4, 0, 1);
+		root.add(lbl5, 1, 1);
+		root.add(btn1, 1, 4);
+		root.add(lbl3, 0, 3);
+		root.add(box, 0, 4);
+		root.add(box0, 0, 2);
+		root.add(box1, 1, 2);
+		root.add(box2, 0, 6);
+		root.add(lbl, 0, 5);
+		root.add(seed, 0, 9);
+		root.add(btn6, 1, 9);
+		root.add(btn7, 0, 10);
+		root.add(btn3, 1, 10);
+		root.add(btn4, 1, 8);
+		root.add(btn5, 2, 8);
+		root.add(lbl2, 0, 7);
+		root.add(box3, 0, 8);
 		box.setValue("1");// set starting values of the boxes
 		box0.setValue("Algae");
 		box1.setValue("1");
@@ -655,5 +677,6 @@ public class Main extends Application {
 			}
 		});
 		control.show();
+		btn2.fire();
 	}
 }
