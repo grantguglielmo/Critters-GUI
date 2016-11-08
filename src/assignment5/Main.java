@@ -555,6 +555,11 @@ public class Main extends Application {
 				box.setDisable(false);
 				box0.setDisable(false);
 				seed.setDisable(false);
+				lbl.setDisable(false);
+				lbl3.setDisable(false);
+				lbl2.setDisable(false);
+				lbl4.setDisable(false);
+				lbl5.setDisable(false);
 				btn6.setDisable(false);
 				btn7.setDisable(false);
 				box1.setDisable(false);
@@ -578,6 +583,11 @@ public class Main extends Application {
 				box1.setDisable(true);
 				box2.setDisable(true);
 				seed.setDisable(true);
+				lbl.setDisable(true);
+				lbl2.setDisable(true);
+				lbl3.setDisable(true);
+				lbl4.setDisable(true);
+				lbl5.setDisable(true);
 				btn6.setDisable(true);
 				btn7.setDisable(true);
 				btn5.setDisable(false);
